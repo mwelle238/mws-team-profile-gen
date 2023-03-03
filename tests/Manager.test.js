@@ -4,6 +4,7 @@ const name = "Mike";
 const id = 7;
 const email = 'example@domain.com';
 const office = 101;
+const role = 'Manager';
 
 describe("Manager", () => {
     describe("Initialization", () => {
@@ -46,4 +47,18 @@ describe("Manager", () => {
             expect(cb).toThrowError(err);
         });
     });
+    describe("Accessors", () => {
+        // positive test
+        it("should return the correct variables", () => {
+            const employee = new Manager(name, id, email, office);
+
+            expect(employee.getName()).toEqual(name);
+            expect(employee.getID()).toEqual(id);
+            expect(employee.getEmail()).toEqual(email);
+            expect(employee.getOffice()).toEqual(office);
+            expect(employee.getRole()).toEqual(role);
+        });
+
+        // Exception tests (I don't know what exceptions there could be)
+    })
 });

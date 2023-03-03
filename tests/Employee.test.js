@@ -3,6 +3,7 @@ const Employee = require('../lib/employee');
 const name = "Mike";
 const id = 7;
 const email = 'example@domain.com'
+const role = 'Employee';
 
 describe("Employee", () => {
     describe("Initialization", () => {
@@ -37,4 +38,18 @@ describe("Employee", () => {
             expect(cb).toThrowError(err);
         });
     });
+
+    describe("Accessors", () => {
+        // positive test
+        it("should return the correct variables", () => {
+            const employee = new Employee(name, id, email);
+
+            expect(employee.getName()).toEqual(name);
+            expect(employee.getID()).toEqual(id);
+            expect(employee.getEmail()).toEqual(email);
+            expect(employee.getRole()).toEqual(role);
+        });
+
+        // Exception tests (I don't know what exceptions there could be)
+    })
 });

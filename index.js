@@ -11,7 +11,7 @@ let teamName;
 let teamEngineers = [];
 let teamInterns = [];
 let HTML = [];
-// add team member functions - add manager is called in init, will call addXXXX recursively until Done Adding Members
+// add team member functions - add manager is called in init, will call addXXXX recursively until Done Adding Members is selected
 async function addManager(){
     const mgr = await inquirer.prompt(Manager.getPrompts());
     teamManager = new Manager(mgr.name, mgr.id, mgr.email, mgr.office);
@@ -19,13 +19,12 @@ async function addManager(){
     addNext(mgr.next);
 }
 async function addEngineer(){
-    const eng = await inquirer.prompt(Engineer.getPrompts())
+    const eng = await inquirer.prompt(Engineer.getPrompts());
     teamEngineers.push(new Engineer(eng.name, eng.id, eng.email, eng.github));
     addNext(eng.next);
 }
-
 async function addIntern(){
-    const int = await inquirer.prompt(Intern.getPrompts())
+    const int = await inquirer.prompt(Intern.getPrompts());
     teamInterns.push(new Intern(int.name, int.id, int.email, int.school));
     addNext(int.next);
 }
@@ -36,18 +35,16 @@ async function addNext(selection){
         default: createHTML();
     }
 }
-
 // HTML generation
 function generateManagerSectionHTML(mgr){
-    HTML.push(`
-    <section class="row justify-content-around" id="manager-container">
-        <p class="h2 text-warning text-center">Manager</p>
+    HTML.push(`    <section class="row justify-content-around" id="manager-container">
         <div class="col-12 col-sm-8 col-md-6 mb-3">
             <div class="card employee-card manager-card text-dark">
-                <h3 class="card-header bg-warning text-center">${mgr.name}</h3>
-                <p class="card-text col-12 h6">ID: <span class="id">${mgr.id}</span>
-                    <br>Email:<a href="mailto:${mgr.email}">${mgr.email}</a>
-                    <br>Office Number: <span class="office">${mgr.office}</span>
+                <h2 class="card-header bg-warning text-center">${mgr.getName()}</h2>
+                <h3 class="text-primary">${mgr.getRole()}</h3>
+                <p class="card-text col-12 h6">ID: ${mgr.getID()}
+                    <br>Email: <a href="mailto:${mgr.getEmail()}">${mgr.getEmail()}</a>
+                    <br>Office Number: ${mgr.getOffice()}
                 </p>
             </div>
         </div>
@@ -55,44 +52,43 @@ function generateManagerSectionHTML(mgr){
 `);
 }
 function generateEngineerSectionHTML(engArray){
-    HTML.push(`<section class="row justify-content-around" id="engineer-container">\n<p class="h2 text-warning text-center">Engineers</p>`);
+    HTML.push(`    <section class="row justify-content-around" id="engineer-container">`);
     for (let i=0; i<engArray.length; i++){
         HTML.push(generateEngineerCardHTML(engArray[i]));
     }
-    HTML.push(`</section>\n`);
+    HTML.push(`    </section>\n`);
 }
 function generateInternSectionHTML(intArray){
-    HTML.push(`<section class="row justify-content-around" id="intern-container">\n<p class="h2 text-warning text-center">Interns</p>`);
+    HTML.push(`    <section class="row justify-content-around" id="intern-container">`);
     for (let i=0; i<intArray.length; i++){
         HTML.push(generateInternCardHTML(intArray[i]));
     }
-    HTML.push(`</section>\n`);
+    HTML.push(`    </section>\n`);
 }
 function generateEngineerCardHTML(eng){
-    return`
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+    return`        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
             <div class="card employee-card engineer-card text-dark">
-                <h3 class="card-header bg-warning text-center">${eng.name}</h3>
-                <p class="card-text col-12 h6">ID: <span class="id">${eng.id}</span>
-                    <br>Email:<a href="mailto:${eng.email}">${eng.email}</a>
-                    <br>:GitHub: <span class="office">${eng.github}</span>
+                <h2 class="card-header bg-warning text-center">${eng.getName()}</h2>
+                <h3 class="text-primary">${eng.getRole()}</h3>
+                <p class="card-text col-12 h6">ID: ${eng.getID()}
+                    <br>Email: <a href="mailto:${eng.getEmail()}">${eng.getEmail()}</a>
+                    <br>GitHub: <a href="https://github.com/${eng.getGithub()}" target="_blank" rel="noopener norefferer">${eng.getGithub()}</a>
                 </p>
             </div>
         </div>`;
 }
 function generateInternCardHTML(int){
-    return`
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
+    return`        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
             <div class="card employee-card engineer-card text-dark">
-                <h3 class="card-header bg-warning text-center">${int.name}</h3>
-                <p class="card-text col-12 h6">ID: <span class="id">${int.id}</span>
-                    <br>Email:<a href="mailto:${int.email}">${int.email}</a>
-                    <br>School: <span class="school">${int.school}</span>
+                <h2 class="card-header bg-warning text-center">${int.getName()}</h2>
+                <h3 class="text-primary">${int.getRole()}</h3>
+                <p class="card-text col-12 h6">ID: ${int.getID()}
+                    <br>Email: <a href="mailto:${int.getEmail()}">${int.getEmail()}</a>
+                    <br>School: ${int.getSchool()}
                 </p>
             </div>
         </div>`;
 }
-
 function generateHeaderHTML(){
     HTML.push(`<!DOCTYPE html>
 <html lang="en">
@@ -112,7 +108,7 @@ function generateFooterHTML(){
     HTML.push(`</body>
 </html>`);
 }
-
+// Function to create the html file
 function createHTML(){
     generateHeaderHTML();
     generateManagerSectionHTML(teamManager);
@@ -122,14 +118,10 @@ function createHTML(){
     fs.writeFile(filename, HTML.join('\n'), (err) =>
         err ? console.error(err) : console.log(`${filename} has been created`));    
 }
-
-
-
-
-
+// Function to run script
 async function init(){
     console.log("Fill out your team of Manager, Engineers and Interns");
     addManager();
 }
-
+// call function to run the script
 init();

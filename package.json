@@ -1,7 +1,7 @@
 {
   "name": "mws-team-profile-gen",
   "version": "1.0.0",
-  "description": "",
+  "description": "creates html from team member prompts",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/mwelle238/mws-team-profile-gen.git"
   },
-  "author": "",
+  "author": "Michael Welle",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mwelle238/mws-team-profile-gen/issues"

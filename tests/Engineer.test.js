@@ -4,6 +4,7 @@ const name = "Mike";
 const id = 7;
 const email = 'example@domain.com';
 const github = 'git123';
+const role = 'Engineer';
 
 describe("Engineer", () => {
     describe("Initialization", () => {
@@ -46,4 +47,18 @@ describe("Engineer", () => {
             expect(cb).toThrowError(err);
         });
     });
+    describe("Accessors", () => {
+        // positive test
+        it("should return the correct variables", () => {
+            const employee = new Engineer(name, id, email, github);
+
+            expect(employee.getName()).toEqual(name);
+            expect(employee.getID()).toEqual(id);
+            expect(employee.getEmail()).toEqual(email);
+            expect(employee.getGithub()).toEqual(github);
+            expect(employee.getRole()).toEqual(role);
+        });
+
+        // Exception tests (I don't know what exceptions there could be)
+    })
 });

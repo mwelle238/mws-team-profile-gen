@@ -12,6 +12,7 @@ This project will prompt you to enter information for team members, starting wit
 3. [Contributors](#Contributors)
 4. [License](#License)
 5. [Questions](#Questions)
+6. [Demo](#Demo)
 
 ## Installation
 
